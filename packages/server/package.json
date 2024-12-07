@@ -1,30 +1,7 @@
 {
   "name": "@template/server",
   "version": "0.0.0",
-  "type": "module",
-  "license": "MIT",
   "description": "The server template",
-  "repository": {
-    "type": "git",
-    "url": "<PLACEHOLDER>",
-    "directory": "packages/server"
-  },
-  "scripts": {
-    "codegen": "build-utils prepare-v2",
-    "build": "pnpm build-esm && pnpm build-annotate && pnpm build-cjs && build-utils pack-v2",
-    "build-esm": "tsc -b tsconfig.build.json",
-    "build-cjs": "babel build/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir build/cjs --source-maps",
-    "build-annotate": "babel build/esm --plugins annotate-pure-calls --out-dir build/esm --source-maps",
-    "check": "tsc -b tsconfig.json",
-    "test": "vitest",
-    "coverage": "vitest --coverage"
-  },
-  "dependencies": {
-    "@effect/platform": "latest",
-    "@effect/platform-node": "latest",
-    "@template/domain": "workspace:^",
-    "effect": "latest"
-  },
   "effect": {
     "generateExports": {
       "include": [
@@ -36,5 +13,31 @@
         "**/*.ts"
       ]
     }
+  },
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/server",
+    "type": "git"
+  },
+  "scripts": {
+    "build": "pnpm build-esm && pnpm build-annotate && pnpm build-cjs && build-utils pack-v2",
+    "build-annotate": "babel build/esm --plugins annotate-pure-calls --out-dir build/esm --source-maps",
+    "build-cjs": "babel build/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir build/cjs --source-maps",
+    "build-esm": "tsc -b tsconfig.build.json",
+    "check": "tsc -b tsconfig.json",
+    "codegen": "build-utils prepare-v2",
+    "coverage": "vitest --coverage",
+    "dev": "tsx --watch scripts/server.ts",
+    "start": "tsx scripts/server.ts",
+    "test": "vitest"
+  },
+  "type": "module",
+  "dependencies": {
+    "@effect/ai": "^0.3.4",
+    "@effect/experimental": "^0.33.4",
+    "@effect/platform": "latest",
+    "@effect/platform-node": "^0.65.4",
+    "@template/domain": "workspace:^",
+    "effect": "latest"
   }
 }

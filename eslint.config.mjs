@@ -106,7 +106,7 @@ export default [
 
       "@effect/dprint": ["error", {
         config: {
-          indentWidth: 2,
+          indentWidth: 4,
           lineWidth: 120,
           semiColons: "asi",
           quoteStyle: "alwaysDouble",

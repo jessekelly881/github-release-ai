@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src"],
+  "include": ["src", "scripts/server.ts"],
   "references": [
     { "path": "../domain" } 
   ],
