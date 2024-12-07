@@ -1,5 +1,6 @@
 import { PersistedCache } from "@effect/experimental"
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform"
+import type { Redacted } from "effect"
 import { Effect, flow, PrimaryKey, Schema } from "effect"
 
 /** @internal */
@@ -46,7 +47,8 @@ class ReleasesRequest extends Schema.TaggedRequest<ReleasesRequest>()("ReleasesR
     success: ReleasesApiResponse,
     payload: {
         owner: Schema.String,
-        repo: Schema.String
+        repo: Schema.String,
+        apiKey: Schema.optional(Schema.RedactedFromSelf(Schema.String))
     }
 }) {
     [PrimaryKey.symbol]() {
@@ -63,7 +65,10 @@ const GithubApiClient = HttpClient.HttpClient.pipe(
                 HttpClientRequest.prependUrl(
                     "https://api.github.com"
                 ),
-                HttpClientRequest.setHeader("X-GitHub-Api-Version", "2022-11-28")
+                HttpClientRequest.setHeaders({
+                    "X-GitHub-Api-Version": "2022-11-28",
+                    "Accept": "application/vnd.github+json"
+                })
             )
         )
     ),
@@ -76,12 +81,18 @@ const GithubApiClient = HttpClient.HttpClient.pipe(
 export class Github extends Effect.Service<Github>()("app/Github", {
     dependencies: [FetchHttpClient.layer],
     scoped: Effect.gen(function*() {
-        const client = yield* GithubApiClient
+        const githubApiClient = yield* GithubApiClient
         const cachedReleases = yield* PersistedCache.make({
             storeId: CacheStoreId,
             timeToLive: () => "1 hour",
-            lookup: (request: ReleasesRequest) =>
-                client.get(`/repos/${request.owner}/${request.repo}/releases`).pipe(
+            lookup: (request: ReleasesRequest) => {
+                const client = request.apiKey ?
+                    githubApiClient.pipe(
+                        HttpClient.mapRequest(HttpClientRequest.setHeader("Authorization", `Bearer ${request.apiKey}`))
+                    )
+                    : githubApiClient
+
+                return client.get(`/repos/${request.owner}/${request.repo}/releases`).pipe(
                     Effect.flatMap(HttpClientResponse.schemaBodyJson(ReleasesApiResponse)),
                     Effect.catchTags({ // todo!
                         "ParseError": Effect.die,
@@ -89,15 +100,16 @@ export class Github extends Effect.Service<Github>()("app/Github", {
                         "ResponseError": Effect.die
                     })
                 )
+            }
         })
 
         return {
             /**
              * @since 1.0.0
              */
-            getReleases: (options: { owner: string; repo: string }) =>
+            getReleases: (owner: string, repo: string, options: { apiKey?: Redacted.Redacted<string> } = {}) =>
                 cachedReleases.get(
-                    new ReleasesRequest(options)
+                    new ReleasesRequest({ owner, repo, apiKey: options.apiKey })
                 )
         }
     })
