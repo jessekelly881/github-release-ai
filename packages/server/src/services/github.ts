@@ -85,7 +85,7 @@ export class Github extends Effect.Service<Github>()("app/Github", {
         const cachedReleases = yield* PersistedCache.make({
             storeId: CacheStoreId,
             timeToLive: () => "1 hour",
-            lookup: (request: ReleasesRequest) => {
+            lookup: (request: ReleasesRequest) => { // todo! - handle pagination
                 const client = request.apiKey ?
                     githubApiClient.pipe(
                         HttpClient.mapRequest(HttpClientRequest.setHeader("Authorization", `Bearer ${request.apiKey}`))
