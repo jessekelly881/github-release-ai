@@ -22,6 +22,7 @@ export class Author extends Schema.Class<Author>("Author")({
  */
 export class Release extends Schema.Class<Release>("Release")({
     url: Schema.String,
+    htmlUrl: Schema.String.pipe(Schema.propertySignature, Schema.fromKey("html_url")),
     id: Schema.Number,
     author: Author,
     tagName: Schema.String.pipe(Schema.propertySignature, Schema.fromKey("tag_name")),
@@ -79,6 +80,7 @@ const GithubApiClient = HttpClient.HttpClient.pipe(
  * @since 1.0.0
  */
 export class Github extends Effect.Service<Github>()("app/Github", {
+    accessors: true,
     dependencies: [FetchHttpClient.layer],
     scoped: Effect.gen(function*() {
         const githubApiClient = yield* GithubApiClient

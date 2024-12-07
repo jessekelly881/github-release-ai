@@ -33,11 +33,15 @@
   },
   "type": "module",
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.28.0",
     "@effect/ai": "^0.3.4",
+    "@effect/ai-openai": "^0.5.4",
     "@effect/experimental": "^0.33.4",
     "@effect/platform": "latest",
     "@effect/platform-node": "^0.65.4",
     "@template/domain": "workspace:^",
-    "effect": "latest"
+    "dotenv": "^16.4.7",
+    "effect": "latest",
+    "lmdb": "^3.2.0"
   }
 }
