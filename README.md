@@ -12,7 +12,7 @@ pnpm install
 
 ## Server
 
-Requires a .env file with:
+Requires a .env file (in the packages/server directory) with:
 
 ```env
 OPENAI_API_KEY=
