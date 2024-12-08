@@ -1,11 +1,33 @@
 body {
     background: #27272a;
     color: white;
+    min-height: 100vh;
+    width: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#App {
+    display: flex;
+}
+
+.FormSection {
+    flex: 0 0 50%;
+    max-width: 50%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    font-family: Helvetica, Arial, sans-serif;
+    border-right: 1px solid #71717a;
+}
+
+.ResultSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 50%;
+    height: 100vh;
+    color: #71717a;
+    max-width: 50%;
 }
 
 .FormRoot {
@@ -64,14 +86,21 @@ button {
 
 button[disabled] {
     opacity: .5;
+    cursor: not-allowed;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     opacity: .90;
 }
 
 .ResultBody {
     max-width: 800px;
     text-wrap: wrap;
-    color: #71717a;
+    padding: 48px;
+}
+
+pre {
+  white-space: pre-wrap; /* Allows text to wrap */
+  word-wrap: break-word; /* Breaks long words to wrap them */
+  overflow-wrap: anywhere; /* Modern equivalent for breaking long words */
 }
