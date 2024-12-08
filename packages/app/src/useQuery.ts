@@ -23,7 +23,7 @@ const queryReleases = (query: Query) =>
     Effect.flatMap(Client, (client) =>
         client.repo.queryRepo({
             path: { owner: query.owner, repo: query.repo },
-            urlParams: { query: "" },
+            urlParams: { query: query.query },
             headers: query.apiKey ? { "X-GITHUB-TOKEN": query.apiKey } : {}
         })).pipe(
             Effect.provide(FetchHttpClient.layer),

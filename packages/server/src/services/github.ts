@@ -101,7 +101,9 @@ export class Github extends Effect.Service<Github>()("app/Github", {
                         "RequestError": Effect.die,
                         "ResponseError": Effect.die
                     }),
-                    Effect.tap((releases) => Effect.annotateCurrentSpan({ numberOfReleases: releases.length }))
+                    Effect.tap((releases) =>
+                        Effect.annotateCurrentSpan({ annotations: { numberOfReleases: releases.length } })
+                    )
                 )
             }
         })
