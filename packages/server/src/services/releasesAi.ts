@@ -43,7 +43,9 @@ export class ReleasesAi extends Effect.Service<ReleasesAi>()("@/ReleasesAi", {
                     const releases = yield* gh.getReleases(options.owner, options.repo)
                     const chat = yield* AiChat.fromInput(JSON.stringify(releases))
                     return yield* chat.structured(ResponseStructure, options.query)
-                })
+                }).pipe(
+                    Effect.withSpan("ReleasesAi.query", { attributes: { owner: options.owner, repo: options.repo } })
+                )
         }
     })
 }) {}

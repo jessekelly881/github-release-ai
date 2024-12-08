@@ -112,7 +112,7 @@ export class Github extends Effect.Service<Github>()("app/Github", {
             getReleases: (owner: string, repo: string, options: { apiKey?: Redacted.Redacted<string> } = {}) =>
                 cachedReleases.get(
                     new ReleasesRequest({ owner, repo, apiKey: options.apiKey })
-                )
+                ).pipe(Effect.withSpan("Github.getReleases", { attributes: { owner, repo } }))
         }
     })
 }) {}
