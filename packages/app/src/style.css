@@ -46,6 +46,10 @@ h1 {
     font-weight: 300;
 }
 
+a {
+    color: #fb923c
+}
+
 button {
     background: #fb923c;
     border: none;
@@ -55,8 +59,19 @@ button {
     cursor: pointer;
     width: 100%;
     font-size: 16px;
+    color: black;
+}
+
+button[disabled] {
+    opacity: .5;
 }
 
 button:hover {
     opacity: .90;
+}
+
+.ResultBody {
+    max-width: 800px;
+    text-wrap: wrap;
+    color: #71717a;
 }

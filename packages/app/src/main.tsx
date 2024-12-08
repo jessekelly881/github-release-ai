@@ -1,37 +1,10 @@
-import { FetchHttpClient, HttpApiClient } from "@effect/platform"
 import * as Form from "@radix-ui/react-form"
-import { Effect } from "effect"
+import { marked } from "marked"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import "reset.css"
-import { Api } from "../../domain/src/api.js"
 import "./style.css"
-
-const Client = HttpApiClient.make(Api, {
-    baseUrl: "http://localhost:3000"
-})
-
-interface Query {
-    owner: string
-    repo: string
-    apiKey?: string
-    query: string
-}
-
-export const queryReleases = (query: Query) =>
-    Effect.flatMap(Client, (client) =>
-        client.repo.queryRepo({
-            path: { owner: query.owner, repo: query.repo },
-            urlParams: { query: "" }
-        })).pipe(
-            Effect.provide(FetchHttpClient.layer)
-        )
-
-/*
-Effect.runPromise(
-    queryReleases({ owner: "Effect-TS", repo: "effect", query: "what's the coolest release in the last month?" })
-).then(console.log)
-*/
+import { useQuery } from "./useQuery.js"
 
 /**
  * Parse a GitHub URL into an owner and repo name.
@@ -47,13 +20,20 @@ export function parseGithubUrl(url: string | null) {
 }
 
 const App: React.FC = () => {
+    const [result, query] = useQuery()
+
     return (
         <div>
             <Form.Root
                 className="FormRoot"
                 onSubmit={(event) => {
                     const data = Object.fromEntries(new FormData(event.currentTarget))
-                    alert(JSON.stringify(data))
+                    query({
+                        owner: "Effect-TS",
+                        repo: "effect",
+                        query: "what's the coolest release in the last month?"
+                    })
+
                     return event.preventDefault()
                 }}
             >
@@ -65,7 +45,7 @@ const App: React.FC = () => {
                 <Form.Field className="FormField" name="api-key">
                     <Form.Label className="FormLabel">Api Key (required for private repos)</Form.Label>
                     <input
-                        type="text"
+                        type="password"
                         placeholder="sk-proj-zrNiwy8EOsagQkhH3F7CYds..."
                     />
                 </Form.Field>
@@ -74,11 +54,18 @@ const App: React.FC = () => {
                     <textarea required placeholder="What's the coolest release in the last month?" />
                 </Form.Field>
                 <Form.Submit asChild>
-                    <button className="Button" style={{ marginTop: 10 }}>
-                        Run Query
+                    <button disabled={result.waiting} className="Button" style={{ marginTop: 10 }}>
+                        {result.waiting ? "Running query..." : "Run Query"}
                     </button>
                 </Form.Submit>
             </Form.Root>
+            <br />
+            {result._tag === "Success" && (
+                <pre
+                    className="ResultBody"
+                    dangerouslySetInnerHTML={{ "__html": marked(result.value.body, { async: false }) }}
+                />
+            )}
         </div>
     )
 }
