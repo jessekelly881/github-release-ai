@@ -4,6 +4,19 @@ import ReactDOM from "react-dom/client"
 import "reset.css"
 import "./style.css"
 
+/**
+ * Parse a GitHub URL into an owner and repo name.
+ * @since 1.0.0
+ */
+export function parseGithubUrl(url: string | null) {
+    if (!url) return null
+    const match = url.match(
+        /^https?:\/\/(www\.)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
+    )
+    if (!match || !(match.groups?.owner && match.groups?.name)) return null
+    return { owner: match.groups.owner, repo: match.groups.name }
+}
+
 const App: React.FC = () => {
     return (
         <div>
