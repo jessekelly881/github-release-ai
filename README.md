@@ -1,32 +1,37 @@
-# Effect Monorepo Template
+# Superwall AI App
 
-This template provides a solid foundation for building scalable and maintainable TypeScript applications with Effect. 
+Created from Effect Monorepo
 
-## Running Code
-
-This template leverages [tsx](https://tsx.is) to allow execution of TypeScript files via NodeJS as if they were written in plain JavaScript.
-
-To execute a file with `tsx`:
-
-```sh
-pnpm tsx ./path/to/the/file.ts
+```ts
+git clone https://github.com/jessekelly881/superwall-project
+cd superwall-project
+pnpm install
 ```
 
-## Operations
+## Server
 
-**Building**
+Requires a .env file with:
 
-To build all packages in the monorepo:
-
-```sh
-pnpm build
+```env
+OPENAI_API_KEY=
 ```
 
-**Testing**
+Starting the server:
 
-To test all packages in the monorepo:
-
-```sh
-pnpm test
+```ts
+cd packages/server
+pnpm run dev
 ```
 
+Api Docs: <http://localhost:3000/docs>
+
+Has the effect DevTools layer setup so you can see traces using the "Effect Dev Tools" vscode extension.
+
+## Client
+
+```ts
+cd packages/app
+pnpm run dev
+```
+
+App: <http://localhost:5173/>
