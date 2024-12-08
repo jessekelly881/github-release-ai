@@ -1,3 +1,4 @@
+import { Result } from "@effect-rx/rx-react"
 import * as Form from "@radix-ui/react-form"
 import { Option } from "effect"
 import { marked } from "marked"
@@ -73,13 +74,24 @@ const App: React.FC = () => {
                 </Form.Root>
             </div>
             <div className="ResultSection">
-                {result._tag === "Initial" && <div>Run a query to see results</div>}
-                {result._tag === "Success" && (
-                    <div
-                        className="ResultBody"
-                        dangerouslySetInnerHTML={{ "__html": marked(result.value.body, { async: false }) }}
-                    />
-                )}
+                {Result.match(result, {
+                    "onSuccess": ({ value }) =>
+                        result.waiting ?
+                            <div>Running query...</div> :
+                            (
+                                <pre
+                                    className="ResultBody"
+                                    dangerouslySetInnerHTML={{ "__html": marked(value.body, { async: false }) }}
+                                />
+                            ),
+                    onInitial: () =>
+                        result.waiting ? <div>Running query...</div> : <div>Run a query to see results</div>,
+                    onFailure: () => (
+                        <div>
+                            An Error Occurred..
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
