@@ -32,10 +32,15 @@ const App: React.FC = () => {
                     ) as any
 
                     const parsedUrlOption = parseGithubUrl(data.url)
-                    if (Option.isNone(parsedUrlOption)) return event.preventDefault()
+                    alert(parsedUrlOption._tag)
+                    if (Option.isNone(parsedUrlOption)) {
+                        alert("Invalid Github URL")
+                        return event.preventDefault()
+                    }
 
                     const { owner, repo } = parsedUrlOption.value
 
+                    alert("Running query...")
                     query({
                         owner,
                         repo,

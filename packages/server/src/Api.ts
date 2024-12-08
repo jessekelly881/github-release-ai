@@ -7,13 +7,13 @@ const RepoApiLive = HttpApiBuilder.group(Api, "repo", (handlers) =>
     Effect.gen(function*() {
         const releasesAi = yield* ReleasesAi
         return handlers
-            .handle("queryRepo", ({ path: { owner, repo }, urlParams: { query } }) =>
+            .handle("queryRepo", ({ headers, path: { owner, repo }, urlParams: { query } }) =>
                 Effect.gen(function*() {
                     const aiResponse = yield* releasesAi.query({
                         owner,
                         repo,
                         query,
-                        apiKey: ""
+                        ...(headers["X-GITHUB-TOKEN"] ? { apiKey: headers["X-GITHUB-TOKEN"] } : {})
                     })
                     return {
                         body: aiResponse.responseText,

@@ -10,19 +10,13 @@ export const QueryResponse = Schema.Struct({
     }))
 })
 
-export const Query = Schema.Struct({
-    owner: Schema.String,
-    repo: Schema.String,
-    apiKey: Schema.optional(Schema.RedactedFromSelf(Schema.String)),
-    query: Schema.String
-})
-
 export class RepoApiGroup extends HttpApiGroup.make("repo")
     .add(
         HttpApiEndpoint.get("queryRepo", "/query/:owner/:repo")
             .addSuccess(QueryResponse)
             .setPath(Schema.Struct({ owner: Schema.String, repo: Schema.String }))
             .setUrlParams(Schema.Struct({ query: Schema.String }))
+            .setHeaders(Schema.Struct({ "X-GITHUB-TOKEN": Schema.optional(Schema.String) }))
     )
 {}
 
