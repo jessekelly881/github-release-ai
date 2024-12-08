@@ -87,7 +87,7 @@ export class Github extends Effect.Service<Github>()("app/Github", {
         const cachedReleases = yield* PersistedCache.make({
             storeId: CacheStoreId,
             timeToLive: () => "1 hour",
-            lookup: (request: ReleasesRequest) => { // todo! - handle pagination
+            lookup: (request: ReleasesRequest) => {
                 const client = request.apiKey ?
                     githubApiClient.pipe(
                         HttpClient.mapRequest(HttpClientRequest.setHeader("Authorization", `Bearer ${request.apiKey}`))
@@ -100,7 +100,8 @@ export class Github extends Effect.Service<Github>()("app/Github", {
                         "ParseError": Effect.die,
                         "RequestError": Effect.die,
                         "ResponseError": Effect.die
-                    })
+                    }),
+                    Effect.tap((releases) => Effect.annotateCurrentSpan({ numberOfReleases: releases.length }))
                 )
             }
         })

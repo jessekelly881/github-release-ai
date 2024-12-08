@@ -28,6 +28,7 @@ body {
     height: 100vh;
     color: #71717a;
     max-width: 50%;
+    overflow-y: auto;
 }
 
 .FormRoot {
