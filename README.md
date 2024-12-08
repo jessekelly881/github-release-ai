@@ -1,5 +1,7 @@
 # Superwall AI App
 
+![Screenshot](./screenshot.png)
+
 Created from Effect Monorepo
 
 ```ts
