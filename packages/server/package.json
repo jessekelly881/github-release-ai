@@ -42,6 +42,10 @@
     "@template/domain": "workspace:^",
     "dotenv": "^16.4.7",
     "effect": "latest",
-    "lmdb": "^3.2.0"
+    "fast-check": "^3.23.1",
+    "find-my-way-ts": "^0.1.5",
+    "lmdb": "^3.2.0",
+    "multipasta": "^0.2.5",
+    "scheduler": "^0.25.0"
   }
 }

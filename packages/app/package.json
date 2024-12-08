@@ -38,12 +38,26 @@
   "type": "module",
   "dependencies": {
     "@effect/cli": "latest",
-    "@effect/platform": "latest",
+    "@effect/platform": "^0.70.4",
     "@effect/platform-node": "latest",
+    "@radix-ui/primitive": "^1.1.0",
+    "@radix-ui/react-compose-refs": "^1.1.0",
+    "@radix-ui/react-context": "^1.1.1",
+    "@radix-ui/react-form": "^0.1.0",
+    "@radix-ui/react-id": "^1.1.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-primitive": "^2.0.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-use-layout-effect": "^1.1.0",
     "@template/domain": "workspace:^",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
-    "effect": "latest"
+    "effect": "^3.11.3",
+    "find-my-way-ts": "^0.1.5",
+    "multipasta": "^0.2.5",
+    "pure-rand": "^6.1.0",
+    "reset.css": "^2.0.2",
+    "scheduler": "^0.25.0"
   },
   "devDependencies": {
     "@effect/cli": "latest",
@@ -52,6 +66,7 @@
     "@template/domain": "workspace:^",
     "@vitejs/plugin-react": "^4.3.4",
     "effect": "latest",
+    "fast-check": "^3.23.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "vite": "^6.0.3"
