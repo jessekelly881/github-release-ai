@@ -1,4 +1,5 @@
 import * as Form from "@radix-ui/react-form"
+import { Option } from "effect"
 import { marked } from "marked"
 import React from "react"
 import ReactDOM from "react-dom/client"
@@ -10,13 +11,12 @@ import { useQuery } from "./useQuery.js"
  * Parse a GitHub URL into an owner and repo name.
  * @since 1.0.0
  */
-export function parseGithubUrl(url: string | null) {
-    if (!url) return null
+export function parseGithubUrl(url: string): Option.Option<{ owner: string; repo: string }> {
     const match = url.match(
         /^https?:\/\/(www\.)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
     )
-    if (!match || !(match.groups?.owner && match.groups?.name)) return null
-    return { owner: match.groups.owner, repo: match.groups.name }
+    if (!match || !(match.groups?.owner && match.groups?.name)) return Option.none()
+    return Option.some({ owner: match.groups.owner, repo: match.groups.name })
 }
 
 const App: React.FC = () => {
@@ -27,11 +27,20 @@ const App: React.FC = () => {
             <Form.Root
                 className="FormRoot"
                 onSubmit={(event) => {
-                    const data = Object.fromEntries(new FormData(event.currentTarget))
+                    const data: { url: string; apiKey: string; query: string } = Object.fromEntries(
+                        new FormData(event.currentTarget)
+                    ) as any
+
+                    const parsedUrlOption = parseGithubUrl(data.url)
+                    if (Option.isNone(parsedUrlOption)) return event.preventDefault()
+
+                    const { owner, repo } = parsedUrlOption.value
+
                     query({
-                        owner: "Effect-TS",
-                        repo: "effect",
-                        query: "what's the coolest release in the last month?"
+                        owner,
+                        repo,
+                        query: data.query,
+                        apiKey: data.apiKey
                     })
 
                     return event.preventDefault()
@@ -42,7 +51,7 @@ const App: React.FC = () => {
                     <Form.Label className="FormLabel">Github Url</Form.Label>
                     <input required type="text" placeholder="github.com/Effect-TS/effect" />
                 </Form.Field>
-                <Form.Field className="FormField" name="api-key">
+                <Form.Field className="FormField" name="apiKey">
                     <Form.Label className="FormLabel">Api Key (required for private repos)</Form.Label>
                     <input
                         type="password"
