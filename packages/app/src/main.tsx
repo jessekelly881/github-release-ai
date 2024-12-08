@@ -13,7 +13,7 @@ import { useQuery } from "./useQuery.js"
  */
 export function parseGithubUrl(url: string): Option.Option<{ owner: string; repo: string }> {
     const match = url.match(
-        /^https?:\/\/(www\.)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
+        /^(https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
     )
     if (!match || !(match.groups?.owner && match.groups?.name)) return Option.none()
     return Option.some({ owner: match.groups.owner, repo: match.groups.name })
@@ -27,45 +27,42 @@ const App: React.FC = () => {
             <Form.Root
                 className="FormRoot"
                 onSubmit={(event) => {
+                    event.preventDefault()
                     const data: { url: string; apiKey: string; query: string } = Object.fromEntries(
                         new FormData(event.currentTarget)
                     ) as any
 
                     const parsedUrlOption = parseGithubUrl(data.url)
-                    alert(parsedUrlOption._tag)
                     if (Option.isNone(parsedUrlOption)) {
                         alert("Invalid Github URL")
-                        return event.preventDefault()
+                        return
                     }
 
                     const { owner, repo } = parsedUrlOption.value
-
-                    alert("Running query...")
                     query({
                         owner,
                         repo,
                         query: data.query,
                         apiKey: data.apiKey
                     })
-
-                    return event.preventDefault()
                 }}
             >
                 <h1>Query Project Releases with AI</h1>
                 <Form.Field className="FormField" name="url">
                     <Form.Label className="FormLabel">Github Url</Form.Label>
-                    <input required type="text" placeholder="github.com/Effect-TS/effect" />
+                    <input name="url" required type="text" placeholder="github.com/Effect-TS/effect" />
                 </Form.Field>
                 <Form.Field className="FormField" name="apiKey">
-                    <Form.Label className="FormLabel">Api Key (required for private repos)</Form.Label>
+                    <Form.Label className="FormLabel">Github Api Key (required for private repos)</Form.Label>
                     <input
+                        name="apiKey"
                         type="password"
                         placeholder="sk-proj-zrNiwy8EOsagQkhH3F7CYds..."
                     />
                 </Form.Field>
                 <Form.Field className="FormField" name="query">
                     <Form.Label className="FormLabel">AI Query</Form.Label>
-                    <textarea required placeholder="What's the coolest release in the last month?" />
+                    <textarea name="query" required placeholder="What's the coolest release in the last month?" />
                 </Form.Field>
                 <Form.Submit asChild>
                     <button disabled={result.waiting} className="Button" style={{ marginTop: 10 }}>

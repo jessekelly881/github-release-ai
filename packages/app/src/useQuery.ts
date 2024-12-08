@@ -26,7 +26,8 @@ const queryReleases = (query: Query) =>
             urlParams: { query: "" },
             headers: query.apiKey ? { "X-GITHUB-TOKEN": query.apiKey } : {}
         })).pipe(
-            Effect.provide(FetchHttpClient.layer)
+            Effect.provide(FetchHttpClient.layer),
+            Effect.tapErrorCause(Effect.logError)
         )
 
 const queryReleaseRx = Rx.fn(queryReleases)
