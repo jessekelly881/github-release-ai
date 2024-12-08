@@ -1,8 +1,37 @@
+import { FetchHttpClient, HttpApiClient } from "@effect/platform"
 import * as Form from "@radix-ui/react-form"
+import { Effect } from "effect"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import "reset.css"
+import { Api } from "../../domain/src/api.js"
 import "./style.css"
+
+const Client = HttpApiClient.make(Api, {
+    baseUrl: "http://localhost:3000"
+})
+
+interface Query {
+    owner: string
+    repo: string
+    apiKey?: string
+    query: string
+}
+
+export const queryReleases = (query: Query) =>
+    Effect.flatMap(Client, (client) =>
+        client.repo.queryRepo({
+            path: { owner: query.owner, repo: query.repo },
+            urlParams: { query: "" }
+        })).pipe(
+            Effect.provide(FetchHttpClient.layer)
+        )
+
+/*
+Effect.runPromise(
+    queryReleases({ owner: "Effect-TS", repo: "effect", query: "what's the coolest release in the last month?" })
+).then(console.log)
+*/
 
 /**
  * Parse a GitHub URL into an owner and repo name.

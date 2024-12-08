@@ -37,6 +37,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@effect-rx/rx": "^0.34.5",
+    "@effect-rx/rx-react": "^0.31.5",
     "@effect/cli": "latest",
     "@effect/platform": "^0.70.4",
     "@effect/platform-node": "latest",

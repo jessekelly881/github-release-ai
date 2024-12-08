@@ -5,6 +5,14 @@ import { defineConfig } from "vite"
 export default defineConfig({
     plugins: [react()],
     root: ".",
+    build: {
+        rollupOptions: {
+            external: ["multipasta", "fast-check", "find-my-way-ts"]
+        }
+    },
+    optimizeDeps: {
+        exclude: ["multipasta", "fast-check", "find-my-way-ts"] // Exclude dependencies from pre-bundling
+    },
     resolve: {
         preserveSymlinks: true, // Ensure Vite resolves symlinked dependencies
         alias: {

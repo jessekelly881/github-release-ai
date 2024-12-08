@@ -98,6 +98,12 @@ importers:
 
   packages/app:
     dependencies:
+      '@effect-rx/rx':
+        specifier: ^0.34.5
+        version: 0.34.5(effect@3.11.3)
+      '@effect-rx/rx-react':
+        specifier: ^0.31.5
+        version: 0.31.5(effect@3.11.3)(react@19.0.0)(scheduler@0.25.0)
       '@effect/cli':
         specifier: latest
         version: 0.49.4(@effect/platform@0.70.4(effect@3.11.3))(@effect/printer-ansi@0.39.3(@effect/typeclass@0.30.3(effect@3.11.3))(effect@3.11.3))(@effect/printer@0.39.3(@effect/typeclass@0.30.3(effect@3.11.3))(effect@3.11.3))(effect@3.11.3)
@@ -190,6 +196,15 @@ importers:
       effect:
         specifier: latest
         version: 3.11.3
+      fast-check:
+        specifier: ^3.23.1
+        version: 3.23.1
+      find-my-way-ts:
+        specifier: ^0.1.5
+        version: 0.1.5
+      multipasta:
+        specifier: ^0.2.5
+        version: 0.2.5
     publishDirectory: dist
 
   packages/server:
@@ -424,6 +439,18 @@ packages:
     engines: {bun: '>=1', deno: '>=2', node: '>=16'}
     peerDependencies:
       '@noble/ciphers': ^1.0.0
+
+  '@effect-rx/rx-react@0.31.5':
+    resolution: {integrity: sha512-kCuZBAUkrOKJwo3kcIxS5fzMRFZSXgPR2w5PHu2kYIBcCBCU4rFZ0BANo2r20+3EBoue1pQbU47OyqR6lNReog==}
+    peerDependencies:
+      effect: ^3.8.0
+      react: ^18
+      scheduler: '*'
+
+  '@effect-rx/rx@0.34.5':
+    resolution: {integrity: sha512-wdui6auQ23SU60C7sRxzQhv9JWCRTO3WGxcZLCOVG8PoIzrmtCpWcR2DkjkM8Udi/8RdGoPbcXKQ4+XXaqNTDg==}
+    peerDependencies:
+      effect: ^3.8.0
 
   '@effect/ai-openai@0.5.4':
     resolution: {integrity: sha512-YwT76AHQW1n2Gx/JMYayq9KP4d1eV6diapFjadHFbBoNxXHobc/hsO4Zd1CPuonQp12ySZcWzT7qm9uXmWDQ+w==}
@@ -3783,6 +3810,17 @@ snapshots:
   '@ecies/ciphers@0.2.2(@noble/ciphers@1.1.3)':
     dependencies:
       '@noble/ciphers': 1.1.3
+
+  '@effect-rx/rx-react@0.31.5(effect@3.11.3)(react@19.0.0)(scheduler@0.25.0)':
+    dependencies:
+      '@effect-rx/rx': 0.34.5(effect@3.11.3)
+      effect: 3.11.3
+      react: 19.0.0
+      scheduler: 0.25.0
+
+  '@effect-rx/rx@0.34.5(effect@3.11.3)':
+    dependencies:
+      effect: 3.11.3
 
   '@effect/ai-openai@0.5.4(@effect/ai@0.3.4(@effect/platform@0.70.4(effect@3.11.3))(effect@3.11.3))(@effect/experimental@0.33.4(@effect/platform-node@0.65.4(@effect/platform@0.70.4(effect@3.11.3))(effect@3.11.3))(@effect/platform@0.70.4(effect@3.11.3))(effect@3.11.3)(lmdb@3.2.0)(ws@8.18.0))(@effect/platform@0.70.4(effect@3.11.3))(effect@3.11.3)':
     dependencies:

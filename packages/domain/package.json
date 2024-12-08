@@ -26,7 +26,10 @@
   "dependencies": {
     "@effect/platform": "latest",
     "@effect/sql": "latest",
-    "effect": "latest"
+    "effect": "latest",
+    "fast-check": "^3.23.1",
+    "find-my-way-ts": "^0.1.5",
+    "multipasta": "^0.2.5"
   },
   "effect": {
     "generateExports": {
