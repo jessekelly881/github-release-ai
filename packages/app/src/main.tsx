@@ -34,7 +34,7 @@ const App: React.FC = () => {
                     <input required type="text" placeholder="github.com/Effect-TS/effect" />
                 </Form.Field>
                 <Form.Field className="FormField" name="api-key">
-                    <Form.Label className="FormLabel">Api Key</Form.Label>
+                    <Form.Label className="FormLabel">Api Key (required for private repos)</Form.Label>
                     <input
                         type="text"
                         placeholder="sk-proj-zrNiwy8EOsagQkhH3F7CYds..."
