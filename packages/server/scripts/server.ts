@@ -17,6 +17,7 @@ const CompletionsLive = OpenAiCompletions.layerCompletions({ model: "gpt-4o-mini
 )
 
 const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
+    Layer.provide(HttpApiBuilder.middlewareCors()),
     HttpServer.withLogAddress,
     Layer.provide(HttpApiScalar.layer({ path: "/docs" })),
     Layer.provide(ApiLive),
