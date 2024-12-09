@@ -52,15 +52,14 @@ const App: React.FC = () => {
                     <h1>Query Project Releases with AI</h1>
                     <Form.Field className="FormField" name="url">
                         <Form.Label className="FormLabel">Github Url</Form.Label>
-                        <input name="url" required type="text" placeholder="github.com/Effect-TS/effect" />
+                        <Form.Control name="url" required type="text" placeholder="github.com/Effect-TS/effect" />
+                        <Form.Message className="FormMessage" match={(val) => Option.isNone(parseGithubUrl(val))}>
+                            Invalid Github URL
+                        </Form.Message>
                     </Form.Field>
                     <Form.Field className="FormField" name="apiKey">
                         <Form.Label className="FormLabel">Github Api Key (required for private repos)</Form.Label>
-                        <input
-                            name="apiKey"
-                            type="password"
-                            placeholder="sk-proj-zrNiwy8EOsagQkhH3F7CYds..."
-                        />
+                        <Form.Control type="password" name="apiKey" placeholder="sk-proj-zrNiwy8EOsagQkhH3F7CYds..." />
                     </Form.Field>
                     <Form.Field className="FormField" name="query">
                         <Form.Label className="FormLabel">AI Query</Form.Label>

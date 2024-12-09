@@ -21,6 +21,10 @@ body {
     border-right: 1px solid #71717a;
 }
 
+.FormMessage {
+    color: #b91c1c;
+}
+
 .ResultSection {
     display: flex;
     justify-content: center;
