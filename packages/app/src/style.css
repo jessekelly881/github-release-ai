@@ -21,6 +21,10 @@ body {
     border-right: 1px solid #71717a;
 }
 
+.Failure {
+    padding: 4rem;
+}
+
 .FormMessage {
     color: #b91c1c;
 }
@@ -91,7 +95,7 @@ button {
 
 button[disabled] {
     opacity: .5;
-    cursor: not-allowed;
+    cursor: wait;
 }
 
 button:hover:not(:disabled) {
