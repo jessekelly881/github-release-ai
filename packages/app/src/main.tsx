@@ -79,7 +79,7 @@ const App: React.FC = () => {
                         result.waiting ?
                             <div>Running query...</div> :
                             (
-                                <pre
+                                <div
                                     className="ResultBody"
                                     dangerouslySetInnerHTML={{ "__html": marked(value.body, { async: false }) }}
                                 />
