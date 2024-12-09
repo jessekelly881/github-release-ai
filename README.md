@@ -37,3 +37,9 @@ pnpm run dev
 ```
 
 App: <http://localhost:5173/>
+
+## Potential Improvements
+
+-   Create a websocket connection instead of an api to allow for back and forth communication between the client and ai agent.
+
+-   Creating a persistent ai agent trained on the data from the releases api that can be used across multiple client sessions without having to send release data to the ai agent for each new session.
