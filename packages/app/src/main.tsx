@@ -85,9 +85,9 @@ const App: React.FC = () => {
                             ),
                     onInitial: () =>
                         result.waiting ? <div>Running query...</div> : <div>Run a query to see results</div>,
-                    onFailure: () => (
+                    onFailure: (error) => (
                         <div>
-                            An Error Occurred..
+                            An Error Occurred.. {error._tag === "Failure" ? error.cause.toString() : undefined}
                         </div>
                     )
                 })}
