@@ -1,7 +1,7 @@
 import { PersistedCache } from "@effect/experimental"
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform"
 import type { Redacted } from "effect"
-import { Effect, flow, PrimaryKey, Schema } from "effect"
+import { Effect, flow, PrimaryKey, Schedule, Schema } from "effect"
 
 /** @internal */
 const CacheStoreId = "@/Github"
@@ -96,6 +96,12 @@ export class Github extends Effect.Service<Github>()("app/Github", {
 
                 return client.get(`/repos/${request.owner}/${request.repo}/releases`).pipe(
                     Effect.flatMap(HttpClientResponse.schemaBodyJson(ReleasesApiResponse)),
+                    Effect.retry({
+                        times: 3,
+                        schedule: Schedule.exponential(1000),
+                        while: (e) =>
+                            e._tag === "ResponseError" && [500, 502, 503, 504, 408, 429].includes(e.response.status) // todo! - should be handled differently for each code
+                    }),
                     Effect.catchTags({ // todo!
                         "ParseError": Effect.die,
                         "RequestError": Effect.die,
