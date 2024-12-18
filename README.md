@@ -1,4 +1,4 @@
-# Superwall AI App
+# Github Release AI App
 
 ![Screenshot](./screenshot.png)
 
